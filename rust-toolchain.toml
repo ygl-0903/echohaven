@@ -1,0 +1,3 @@
+[toolchain]
+# Tauri 2 传递依赖（darling、time、serde_with、image 等）要求 ≥ 1.88
+channel = "1.88.0"

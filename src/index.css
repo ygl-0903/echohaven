@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+html,
+body {
+  margin: 0;
+  min-height: 100dvh;
+  height: 100%;
+}
+
+#root {
+  min-height: 100dvh;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 侧栏宽度拖拽：悬停微亮，避免像「悬空滚动条」 */
+[data-mantine-color-scheme="dark"] .echohaven-navbar-resize:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+[data-mantine-color-scheme="light"] .echohaven-navbar-resize:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+/* 密码库表格行：键盘聚焦可见轮廓 */
+.echohaven-entry-row:focus-visible {
+  outline: 2px solid var(--mantine-color-blue-filled);
+  outline-offset: -2px;
+}
