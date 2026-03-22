@@ -194,6 +194,14 @@ body::after {
   background: color-mix(in srgb, var(--mantine-color-body) 94%, var(--mantine-color-haven-9) 6%);
 }
 
+/*
+ * Mantine static + default 布局：侧栏在 sm+ 为 sticky，但仍继承 fixed 用的 top: header-offset，
+ * 在部分 WebView 会在顶栏与侧栏之间露出一条底色缝；网格第二行已接在顶栏下，将 top 归零即可贴齐。
+ */
+.echohaven-appshell[data-mode="static"]:not([data-layout="alt"]) > nav {
+  top: 0;
+}
+
 [data-mantine-color-scheme="light"] .echohaven-appshell .mantine-AppShell-navbar {
   background: color-mix(in srgb, var(--mantine-color-body) 96%, var(--eh-paper-deep) 4%);
 }

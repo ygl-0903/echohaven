@@ -15,18 +15,32 @@ import { useNavigate } from "react-router-dom";
 import type { Entry } from "../types";
 import { useAppStore } from "../store";
 
-function entrySubtitle(e: Entry): string {
-  const u = e.username.trim();
-  if (u) return u;
+/** 仅用于「网址/摘要」列：与「用户名」列解耦，优先展示网址（域名+路径），无网址时用备注首行。 */
+function entryUrlSummary(e: Entry): string {
   const raw = e.url.trim();
-  if (!raw) return "—";
-  try {
-    const href = raw.includes("://") ? raw : `https://${raw}`;
-    const host = new URL(href).hostname;
-    return host || raw;
-  } catch {
-    return raw;
+  if (raw) {
+    try {
+      const href = raw.includes("://") ? raw : `https://${raw}`;
+      const u = new URL(href);
+      let line = u.hostname;
+      if (u.port && u.port !== "80" && u.port !== "443") {
+        line += `:${u.port}`;
+      }
+      const pathQuery = (u.pathname === "/" ? "" : u.pathname) + u.search;
+      if (pathQuery) {
+        const rest = pathQuery.length > 56 ? `${pathQuery.slice(0, 53)}…` : pathQuery;
+        line += rest;
+      }
+      return line || raw;
+    } catch {
+      return raw;
+    }
   }
+  const note = e.notes.trim().split(/\r?\n/).find((s) => s.trim().length > 0)?.trim() ?? "";
+  if (note) {
+    return note.length > 72 ? `${note.slice(0, 69)}…` : note;
+  }
+  return "—";
 }
 
 export function EntryListPage() {
@@ -170,7 +184,7 @@ export function EntryListPage() {
                   </Table.Td>
                   <Table.Td>
                     <Text size="sm" c="dimmed" lineClamp={2}>
-                      {entrySubtitle(e)}
+                      {entryUrlSummary(e)}
                     </Text>
                   </Table.Td>
                   <Table.Td>

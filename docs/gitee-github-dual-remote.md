@@ -173,7 +173,34 @@ Gitee 企业版/部分版本提供 **仓库镜像** 功能，可从 GitHub **拉
 
 ---
 
-## 9. 检查清单（首次配置后自测）
+## 9. 推 GitHub 报错：`Invalid username or token` / `Password authentication is not supported`
+
+说明你当前 `github` 远程用的是 **HTTPS**（形如 `https://github.com/用户名/仓库.git`），而 GitHub **已不再接受用账号密码做 Git 操作**。
+
+**做法一：改用 SSH（推荐，与 Gitee 常用 SSH 一致）**
+
+1. 本机已有 GitHub 用的 SSH 公钥并加到 GitHub → **Settings → SSH and GPG keys**（没有则按 GitHub 文档生成 `ssh-keygen`）。  
+2. 把远程改成 SSH 地址：
+
+   ```bash
+   git remote set-url github git@github.com:<用户名>/<仓库名>.git
+   ```
+
+3. 测试：`ssh -T git@github.com`，再执行 `git push github master`（或 `main`）。
+
+**做法二：继续用 HTTPS，但用 Personal Access Token（PAT）代替密码**
+
+1. GitHub → **Settings → Developer settings → Personal access tokens**，新建 token，勾选 **`repo`** 等推送所需权限。  
+2. `git push` 时 **用户名填 GitHub 用户名**，**密码处粘贴 PAT**（不要填登录密码）。  
+3. 或在 macOS 用 **钥匙串** / **Git Credential Manager** 保存一次，避免每次粘贴。
+
+**做法三：用 GitHub CLI 登录 HTTPS**
+
+安装 `gh` 后执行 `gh auth login`，按提示选 HTTPS 并授权，之后同一环境下的 `git push` 可走已保存的凭据。
+
+---
+
+## 10. 检查清单（首次配置后自测）
 
 - [ ] `git remote -v` 能看到 Gitee 与 GitHub 两个地址。
 - [ ] 测试提交：`git push` 到 A 成功，再 `git push` 到 B 成功。

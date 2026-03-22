@@ -176,7 +176,9 @@ export function VaultAppShell() {
       </AppShell.Header>
 
       <AppShell.Navbar
-        p="md"
+        px="md"
+        pt={0}
+        pb="md"
         pr={14}
         style={{ position: "relative", display: "flex", flexDirection: "column", minHeight: 0 }}
       >
@@ -197,7 +199,7 @@ export function VaultAppShell() {
           }}
         />
         <AppShell.Section grow={false}>
-          <Text size="xs" fw={600} c="dimmed" mb="xs">
+          <Text size="xs" fw={600} c="dimmed" mt="xs" mb="xs">
             导航
           </Text>
           <MantineNavLink
