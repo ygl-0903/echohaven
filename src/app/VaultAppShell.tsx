@@ -105,6 +105,7 @@ export function VaultAppShell() {
 
   return (
     <AppShell
+      classNames={{ root: "echohaven-appshell" }}
       mode="static"
       header={{ height: 56 }}
       navbar={{
@@ -122,7 +123,7 @@ export function VaultAppShell() {
           // 不要用 overflow:hidden：会裁剪 sticky 顶栏/侧栏，在 Tauri WebView 里顶栏可能整块看不见
         },
         header: {
-          borderBottom: "1px solid var(--mantine-color-default-border)",
+          borderBottom: "none",
         },
         main: {
           minWidth: 0,
@@ -140,7 +141,9 @@ export function VaultAppShell() {
         <Group h="100%" justify="space-between" wrap="nowrap">
           <Group gap="sm">
             <Burger opened={mobileOpened} onClick={toggleMobile} hiddenFrom="sm" size="sm" />
-            <Title order={4}>余音</Title>
+            <Title order={4} className="echohaven-brand-title" fz="lg">
+              余音
+            </Title>
             <Tooltip
               label={vaultPath ?? ""}
               disabled={!vaultPath}
@@ -239,7 +242,7 @@ export function VaultAppShell() {
         ) : null}
       </AppShell.Navbar>
 
-      <AppShell.Main>
+      <AppShell.Main className="echohaven-main-canvas">
         <Box
           p="md"
           w="100%"

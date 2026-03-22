@@ -183,7 +183,9 @@ export function SettingsPage() {
 
   return (
     <Stack gap="lg" maw={720} mx="auto" p="md" w="100%">
-      <Title order={2}>设置</Title>
+      <Title order={2} className="echohaven-page-title">
+        设置
+      </Title>
 
       <Tabs defaultValue="tags">
         <Tabs.List>

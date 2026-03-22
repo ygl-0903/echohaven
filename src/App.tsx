@@ -39,7 +39,7 @@ function App() {
   if (phase === "boot") {
     return (
       <Center flex={1} role="status" aria-live="polite">
-        <Loader color="blue" />
+        <Loader color="haven" type="bars" />
       </Center>
     );
   }

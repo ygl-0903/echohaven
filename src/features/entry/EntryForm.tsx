@@ -95,7 +95,9 @@ export function EntryForm({
     <Paper shadow="sm" p="lg" radius="md" maw={640} w="100%" mx="auto">
       <Stack gap="md">
         <Group justify="space-between" align="flex-start">
-          <Title order={3}>{mode === "new" ? "新建密码" : "查看 / 编辑"}</Title>
+          <Title order={3} className="echohaven-page-title">
+            {mode === "new" ? "新建密码" : "查看 / 编辑"}
+          </Title>
           <Group gap="xs">
             {onCancel ? (
               <Button variant="default" onClick={onCancel}>

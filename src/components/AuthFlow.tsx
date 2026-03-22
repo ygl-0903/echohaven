@@ -169,8 +169,8 @@ export function AuthFlow({ onAuthed }: Props) {
 
   if (!ready || exists === null) {
     return (
-      <Center mih="100vh">
-        <Loader color="blue" />
+      <Center mih="100vh" className="echohaven-auth-stage">
+        <Loader color="haven" type="bars" />
       </Center>
     );
   }
@@ -181,9 +181,15 @@ export function AuthFlow({ onAuthed }: Props) {
   const unlockMode = mode === "unlock";
 
   return (
-    <Center mih="100vh" p={{ base: "sm", sm: "xl" }} style={{ alignItems: "flex-start" }}>
+    <Center
+      className="echohaven-auth-stage"
+      mih="100vh"
+      p={{ base: "sm", sm: "xl" }}
+      style={{ alignItems: "flex-start" }}
+    >
       <Paper
-        shadow="sm"
+        className="echohaven-auth-card"
+        shadow="lg"
         p={{ base: "md", sm: "xl" }}
         radius="lg"
         maw={480}
@@ -191,13 +197,13 @@ export function AuthFlow({ onAuthed }: Props) {
         mt={{ base: "md", sm: "xl" }}
         withBorder
       >
-        <Stack gap="xl">
+        <Stack gap="xl" className="echohaven-auth-stagger">
           <Stack gap="sm" align="center">
-            <ThemeIcon size={52} radius="md" variant="light" color="blue">
+            <span className="echohaven-auth-mark" aria-hidden>
               <IconShieldLock size={30} stroke={1.5} />
-            </ThemeIcon>
+            </span>
             <div>
-              <Title order={2} ta="center" fw={700}>
+              <Title order={2} ta="center" fw={700} className="echohaven-brand-title" fz="h2">
                 余音
               </Title>
               <Text size="sm" c="dimmed" ta="center" mt={4}>
@@ -222,7 +228,7 @@ export function AuthFlow({ onAuthed }: Props) {
             />
           ) : (
             <Group justify="center">
-              <Badge size="lg" variant="light" color="blue" leftSection={<IconPlus size={14} />}>
+              <Badge size="lg" variant="light" color="haven" leftSection={<IconPlus size={14} />}>
                 首次使用 · 将创建新金库
               </Badge>
             </Group>
@@ -245,7 +251,7 @@ export function AuthFlow({ onAuthed }: Props) {
                     已存在
                   </Badge>
                 ) : (
-                  <Badge size="sm" variant="dot" color="blue">
+                  <Badge size="sm" variant="dot" color="haven">
                     将新建到此路径
                   </Badge>
                 )}

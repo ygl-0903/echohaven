@@ -65,7 +65,9 @@ export function EntryListPage() {
   return (
     <Stack gap="md" flex={1} mih={0} miw={0} w="100%" style={{ display: "flex", flexDirection: "column" }}>
       <Group justify="space-between" wrap="wrap" align="flex-end">
-        <Title order={3}>密码库</Title>
+        <Title order={3} className="echohaven-page-title">
+          密码库
+        </Title>
         <Text size="sm" c="dimmed">
           共 {entries.length} 条 · 当前显示 {filtered.length}
         </Text>
@@ -119,7 +121,7 @@ export function EntryListPage() {
 
       <Box flex={1} mih={0} miw={0} style={{ display: "flex", flexDirection: "column" }}>
         <Table.ScrollContainer minWidth={640} mah="100%" mih={0} type="native" style={{ flex: 1 }}>
-        <Table striped highlightOnHover stickyHeader withTableBorder>
+        <Table className="echohaven-entry-table" striped highlightOnHover stickyHeader withTableBorder>
           <Table.Thead>
             <Table.Tr>
               <Table.Th>标题</Table.Th>

@@ -1,5 +1,16 @@
 @import "tailwindcss";
 
+/* —— 余音 · 环境色与质感（墨匣 / 琥珀钥） —— */
+:root {
+  --eh-ink: #0c0b09;
+  --eh-ink-mid: #161411;
+  --eh-ink-raised: #1e1b17;
+  --eh-gold: #d4af37;
+  --eh-gold-soft: rgba(212, 175, 55, 0.35);
+  --eh-paper: #f6f1e8;
+  --eh-paper-deep: #e8dfd2;
+}
+
 html,
 body {
   margin: 0;
@@ -7,23 +18,332 @@ body {
   height: 100%;
 }
 
+body {
+  position: relative;
+  isolation: isolate;
+}
+
+[data-mantine-color-scheme="dark"] body {
+  background-color: var(--eh-ink);
+  background-image:
+    radial-gradient(ellipse 100% 70% at 50% -30%, rgba(212, 175, 55, 0.14), transparent 52%),
+    radial-gradient(ellipse 55% 40% at 100% 0%, rgba(120, 90, 40, 0.12), transparent 45%),
+    linear-gradient(168deg, #141210 0%, var(--eh-ink) 42%, #080706 100%);
+  background-attachment: fixed;
+}
+
+[data-mantine-color-scheme="light"] body {
+  background-color: var(--eh-paper);
+  background-image:
+    radial-gradient(ellipse 90% 55% at 20% 0%, rgba(212, 175, 55, 0.12), transparent 50%),
+    linear-gradient(175deg, #fdfbf7 0%, var(--eh-paper) 38%, var(--eh-paper-deep) 100%);
+  background-attachment: fixed;
+}
+
 #root {
   min-height: 100dvh;
   height: 100%;
   display: flex;
   flex-direction: column;
+  position: relative;
+  z-index: 1;
 }
 
-/* 侧栏宽度拖拽：悬停微亮，避免像「悬空滚动条」 */
+/* 胶片颗粒：在 #root 之下，不遮挡交互与 Mantine 浮层 */
+body::after {
+  content: "";
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='a'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23a)'/%3E%3C/svg%3E");
+}
+
+[data-mantine-color-scheme="light"] body::after {
+  opacity: 0.035;
+  mix-blend-mode: multiply;
+}
+
+/* 认证页：漫射光晕 */
+.echohaven-auth-stage {
+  position: relative;
+  min-height: 100dvh;
+  overflow: hidden;
+}
+
+.echohaven-auth-stage::before {
+  content: "";
+  position: absolute;
+  width: min(120vw, 900px);
+  height: min(120vw, 900px);
+  left: 50%;
+  top: 18%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(circle, var(--eh-gold-soft) 0%, transparent 68%);
+  filter: blur(40px);
+  opacity: 0.85;
+  animation: eh-breathe 10s ease-in-out infinite;
+}
+
+[data-mantine-color-scheme="light"] .echohaven-auth-stage::before {
+  opacity: 0.5;
+}
+
+@keyframes eh-breathe {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.75;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.06);
+    opacity: 0.95;
+  }
+}
+
+@keyframes eh-rise {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.echohaven-auth-card {
+  position: relative;
+  animation: eh-rise 0.75s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.echohaven-auth-card::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    135deg,
+    rgba(212, 175, 55, 0.45),
+    rgba(212, 175, 55, 0.06) 42%,
+    rgba(255, 255, 255, 0.08) 78%
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+[data-mantine-color-scheme="dark"] .echohaven-auth-card {
+  background: linear-gradient(155deg, rgba(30, 27, 23, 0.92) 0%, rgba(14, 12, 10, 0.97) 100%);
+  border-color: rgba(212, 175, 55, 0.22) !important;
+  box-shadow:
+    0 32px 96px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(255, 255, 255, 0.04) inset,
+    0 1px 0 rgba(212, 175, 55, 0.08) inset;
+  backdrop-filter: blur(16px) saturate(130%);
+}
+
+[data-mantine-color-scheme="light"] .echohaven-auth-card {
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.94) 0%, rgba(246, 241, 232, 0.98) 100%);
+  border-color: rgba(110, 85, 35, 0.18) !important;
+  box-shadow:
+    0 28px 80px rgba(45, 38, 28, 0.12),
+    0 0 0 1px rgba(255, 255, 255, 0.85) inset;
+}
+
+.echohaven-auth-mark {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 14px;
+  background: linear-gradient(145deg, rgba(212, 175, 55, 0.22), rgba(212, 175, 55, 0.05));
+  box-shadow:
+    0 0 0 1px rgba(212, 175, 55, 0.28) inset,
+    0 12px 28px rgba(0, 0, 0, 0.25);
+  color: var(--mantine-color-haven-4);
+}
+
+[data-mantine-color-scheme="light"] .echohaven-auth-mark {
+  background: linear-gradient(145deg, rgba(212, 175, 55, 0.2), rgba(255, 255, 255, 0.5));
+  box-shadow:
+    0 0 0 1px rgba(180, 140, 50, 0.2) inset,
+    0 8px 24px rgba(80, 60, 30, 0.08);
+}
+
+/* 金库外壳 */
+.echohaven-appshell .mantine-AppShell-header {
+  border-bottom: 1px solid color-mix(in srgb, var(--mantine-color-haven-4) 22%, transparent);
+  background: color-mix(in srgb, var(--mantine-color-body) 82%, transparent);
+}
+
+.echohaven-appshell .mantine-AppShell-navbar {
+  border-right: 1px solid color-mix(in srgb, var(--mantine-color-default-border) 70%, var(--mantine-color-haven-4) 12%);
+  background: color-mix(in srgb, var(--mantine-color-body) 94%, var(--mantine-color-haven-9) 6%);
+}
+
+[data-mantine-color-scheme="light"] .echohaven-appshell .mantine-AppShell-navbar {
+  background: color-mix(in srgb, var(--mantine-color-body) 96%, var(--eh-paper-deep) 4%);
+}
+
+.echohaven-brand-title {
+  font-family: var(--mantine-font-family-headings);
+  letter-spacing: 0.12em;
+  font-weight: 700;
+  background: linear-gradient(105deg, var(--mantine-color-haven-3), var(--mantine-color-haven-5));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+[data-mantine-color-scheme="light"] .echohaven-brand-title {
+  background: linear-gradient(105deg, var(--mantine-color-haven-6), var(--mantine-color-haven-8));
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+/* 侧栏拖拽条 */
 [data-mantine-color-scheme="dark"] .echohaven-navbar-resize:hover {
-  background: rgba(255, 255, 255, 0.06);
-}
-[data-mantine-color-scheme="light"] .echohaven-navbar-resize:hover {
-  background: rgba(0, 0, 0, 0.06);
+  background: rgba(212, 175, 55, 0.1);
 }
 
-/* 密码库表格行：键盘聚焦可见轮廓 */
+[data-mantine-color-scheme="light"] .echohaven-navbar-resize:hover {
+  background: rgba(110, 85, 35, 0.08);
+}
+
+/* 密码库表格行：键盘聚焦 */
 .echohaven-entry-row:focus-visible {
-  outline: 2px solid var(--mantine-color-blue-filled);
+  outline: 2px solid var(--mantine-color-haven-filled);
   outline-offset: -2px;
+}
+
+/* 页面主标题（与全局 headings 一致，略加大字距） */
+.echohaven-page-title {
+  font-family: var(--mantine-font-family-headings);
+  letter-spacing: 0.04em;
+}
+
+/* 主内容区：极淡斜线肌理（skill：几何层次 / 打破平板底色） */
+.echohaven-main-canvas {
+  background-image: repeating-linear-gradient(
+    -11deg,
+    transparent 0,
+    transparent 11px,
+    color-mix(in srgb, var(--mantine-color-haven-4) 5%, transparent) 11px,
+    color-mix(in srgb, var(--mantine-color-haven-4) 5%, transparent) 12px
+  );
+}
+
+[data-mantine-color-scheme="light"] .echohaven-main-canvas {
+  background-image: repeating-linear-gradient(
+    -11deg,
+    transparent 0,
+    transparent 12px,
+    color-mix(in srgb, var(--mantine-color-haven-7) 4%, transparent) 12px,
+    color-mix(in srgb, var(--mantine-color-haven-7) 4%, transparent) 13px
+  );
+}
+
+/* 侧栏当前页：左侧金线 + 轻微光晕（data-active 由 Mantine NavLink 写入） */
+.echohaven-appshell a[data-active] {
+  box-shadow:
+    inset 3px 0 0 0 var(--mantine-color-haven-filled),
+    0 0 0 1px color-mix(in srgb, var(--mantine-color-haven-4) 12%, transparent);
+}
+
+[data-mantine-color-scheme="light"] .echohaven-appshell a[data-active] {
+  box-shadow:
+    inset 3px 0 0 0 var(--mantine-color-haven-filled),
+    0 0 0 1px color-mix(in srgb, var(--mantine-color-haven-6) 10%, transparent);
+}
+
+/* 密码库表格：悬停左侧金线（与 focus 轮廓呼应） */
+.echohaven-entry-table tbody tr.echohaven-entry-row {
+  transition:
+    background-color 0.16s ease,
+    box-shadow 0.22s ease;
+}
+
+[data-mantine-color-scheme="dark"] .echohaven-entry-table tbody tr.echohaven-entry-row:hover {
+  box-shadow: inset 3px 0 0 0 color-mix(in srgb, var(--mantine-color-haven-4) 75%, transparent);
+}
+
+[data-mantine-color-scheme="light"] .echohaven-entry-table tbody tr.echohaven-entry-row:hover {
+  box-shadow: inset 3px 0 0 0 color-mix(in srgb, var(--mantine-color-haven-6) 55%, transparent);
+}
+
+/* 登录卡片内：错落入场（skill：高冲击一次编排，而非零碎动效） */
+@keyframes eh-stagger-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .echohaven-auth-stagger > * {
+    opacity: 0;
+    animation: eh-stagger-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  .echohaven-auth-stagger > *:nth-child(1) {
+    animation-delay: 0.06s;
+  }
+  .echohaven-auth-stagger > *:nth-child(2) {
+    animation-delay: 0.12s;
+  }
+  .echohaven-auth-stagger > *:nth-child(3) {
+    animation-delay: 0.18s;
+  }
+  .echohaven-auth-stagger > *:nth-child(4) {
+    animation-delay: 0.24s;
+  }
+  .echohaven-auth-stagger > *:nth-child(5) {
+    animation-delay: 0.3s;
+  }
+  .echohaven-auth-stagger > *:nth-child(6) {
+    animation-delay: 0.36s;
+  }
+  .echohaven-auth-stagger > *:nth-child(7) {
+    animation-delay: 0.42s;
+  }
+  .echohaven-auth-stagger > *:nth-child(8) {
+    animation-delay: 0.48s;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .echohaven-auth-stage::before {
+    animation: none;
+    opacity: 0.55;
+  }
+
+  .echohaven-auth-card {
+    animation: none;
+  }
+
+  .echohaven-auth-stagger > * {
+    animation: none;
+    opacity: 1;
+  }
+
+  .echohaven-entry-table tbody tr.echohaven-entry-row {
+    transition: none;
+  }
 }

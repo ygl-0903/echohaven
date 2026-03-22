@@ -55,7 +55,7 @@ export function EntryDetailPage() {
   if (!vaultListHydrated) {
     return (
       <Center flex={1} mih={320} role="status" aria-live="polite">
-        <Loader color="blue" />
+        <Loader color="haven" type="bars" />
       </Center>
     );
   }
