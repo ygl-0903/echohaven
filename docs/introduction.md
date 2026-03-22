@@ -125,6 +125,8 @@
 | [storage-design.md](./storage-design.md) | 为何用加密金库、与 SQLite 等对比 |
 | [vault-format-v1.md](./vault-format-v1.md) | 金库文件字节布局与 JSON 字段 |
 | [windows-build-from-mac.md](./windows-build-from-mac.md) | Windows / macOS 云端打包与交叉编译说明 |
+| [github-actions-build-desktop.md](./github-actions-build-desktop.md) | 在 GitHub 上启用与使用 `build-desktop` 工作流、下载 Artifacts |
+| [gitee-github-dual-remote.md](./gitee-github-dual-remote.md) | Gitee 与 GitHub 双远程配置、Import 后如何持续同步 |
 | [rustup-toolchain.md](./rustup-toolchain.md) | Rust 工具链版本说明 |
 
 ---

@@ -77,6 +77,8 @@ npm run tauri build
 - **手动**：GitHub 仓库 → **Actions** → **Build Desktop (Windows + macOS)** → **Run workflow**。
 - **自动**：推送到 **`main`** 或 **`master`** 时会跑一遍（不需要可删掉 workflow 里的 `push:`，只保留 `workflow_dispatch`）。
 
+在 GitHub 网页上要开哪些设置、遇到问题怎么排查，见：[github-actions-build-desktop.md](./github-actions-build-desktop.md)。
+
 ### 3. 你得到什么
 
 打开对应运行记录 → 底部 **Artifacts**：

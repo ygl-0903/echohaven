@@ -2,8 +2,9 @@
 
 基于 **Tauri 2** + **React** + **TypeScript** + **Mantine** 的本地密码管理与到期提醒。数据仅存于本机加密金库文件，无云端账号与同步。
 
-**完整介绍（产品定位、安全、架构、文档导航）**：[docs/introduction.md](docs/introduction.md)  
-**功能说明（已实现能力汇总）**：[docs/features.md](docs/features.md)  
+**完整介绍（产品定位、安全、架构、文档导航）**：[docs/introduction.md](docs/introduction.md)
+**Gitee + GitHub 双仓库同步（Import 后如何 push）**：[docs/gitee-github-dual-remote.md](docs/gitee-github-dual-remote.md)
+**功能说明（已实现能力汇总）**：[docs/features.md](docs/features.md)
 **rustup / toolchain 说明（含 `rust-toolchain list` 如何看）**：[docs/rustup-toolchain.md](docs/rustup-toolchain.md)
 
 ## 开发
@@ -23,3 +24,16 @@
 ## CI
 
 推送至 `main` / `master` 或提交 PR 时，GitHub Actions 会在 Ubuntu 上构建前端、在 macOS 上运行 `cargo test`。
+
+## 提交
+```shell
+# 添加github仓库
+git remote add github https://github.com/ygl-0903/echohaven.git
+# 查看远程地址
+git remote -v
+
+# 提交
+git push origin master        # 若 origin 指向你「主用」的那一个
+git push github master        # 提交到github
+
+```
