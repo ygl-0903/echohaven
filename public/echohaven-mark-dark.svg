@@ -1,0 +1,14 @@
+<!-- Monochrome mark for light UI / light tab bar. Designer: 16px legible, one-color. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" aria-hidden="true">
+  <defs>
+    <clipPath id="eh-r">
+      <rect x="12" y="0" width="20" height="32" />
+    </clipPath>
+  </defs>
+  <g clip-path="url(#eh-r)" fill="none" stroke="#1c1914" stroke-width="2.2" stroke-linecap="round">
+    <circle cx="12" cy="14" r="4.5" />
+    <circle cx="12" cy="14" r="9.5" />
+  </g>
+  <circle cx="12" cy="14" r="3.2" fill="#1c1914" />
+  <rect x="8" y="17.5" width="16" height="9.5" rx="2.2" fill="#1c1914" />
+</svg>

@@ -1,0 +1,28 @@
+<!--
+  App / store icon: dark field + amber mark (gradient accent only).
+  Designer: one-color mark remains recognizable; gradient is enhancement on bg only.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="EchoHaven">
+  <defs>
+    <linearGradient id="eh-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e1b17" />
+      <stop offset="100%" stop-color="#0a0908" />
+    </linearGradient>
+    <linearGradient id="eh-gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e8d5a0" />
+      <stop offset="55%" stop-color="#d4af37" />
+      <stop offset="100%" stop-color="#967522" />
+    </linearGradient>
+    <clipPath id="eh-right">
+      <rect x="192" y="0" width="320" height="512" />
+    </clipPath>
+  </defs>
+  <rect width="512" height="512" rx="108" fill="url(#eh-bg)" />
+  <rect width="512" height="512" rx="108" fill="none" stroke="url(#eh-gold)" stroke-opacity="0.38" stroke-width="6" />
+  <g clip-path="url(#eh-right)" fill="none" stroke="url(#eh-gold)" stroke-linecap="round" stroke-width="28">
+    <circle cx="192" cy="224" r="72" />
+    <circle cx="192" cy="224" r="152" />
+  </g>
+  <circle cx="192" cy="224" r="52" fill="url(#eh-gold)" />
+  <rect x="128" y="284" width="128" height="152" rx="28" fill="url(#eh-gold)" />
+</svg>
