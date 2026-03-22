@@ -1,0 +1,103 @@
+# -----------------------------------------------------------------------------
+# 桌面端安装包：在 GitHub Actions 上分别打 Windows（NSIS）与 macOS（DMG）
+# -----------------------------------------------------------------------------
+# 触发：
+#   - 手动：仓库 Actions 页选择本 workflow → Run workflow
+#   - 推送：main / master 分支有 push 时自动跑（两个 Job 并行）
+# 下载：
+#   - 运行完成后 → 底部 Artifacts
+#   - echohaven-windows-bundle：内含 nsis/ 下的 .exe 安装向导
+#   - echohaven-macos-bundle：内含 dmg/ 下的 .dmg 磁盘映像
+# 说明：
+#   - 未配置 Apple / 微软代码签名；分发时系统可能提示「未验证开发者」，属正常。
+#   - Windows 合并 tauri.windows.conf.json（本机在 Windows 上 build 也会合并）
+#   - macOS 仅在本 workflow 里用 -c ci-bundle-macos-dmg.json，避免影响本机 Mac 上 tauri build 的 targets: all
+# -----------------------------------------------------------------------------
+
+name: Build Desktop (Windows + macOS)
+
+on:
+  # 允许在网页上手动点一次就跑
+  workflow_dispatch:
+  # 推送到主分支时自动构建（不需要可删掉下面 push 整段，只保留 workflow_dispatch）
+  push:
+    branches: [main, master]
+
+# 同一分支上多次推送时，取消还在跑的旧任务，省时间
+concurrency:
+  group: build-desktop-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # Windows：NSIS 安装包（由 tauri.windows.conf.json 指定 targets）
+  # ---------------------------------------------------------------------------
+  windows:
+    name: Windows (NSIS)
+    runs-on: windows-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: Node.js（与本地开发一致，便于锁文件复现）
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Rust stable
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: 安装前端依赖
+        run: npm ci
+
+      # CI=true + --ci：非交互，适合无人值守构建
+      - name: Tauri 构建（Windows）
+        env:
+          CI: "true"
+        run: npm run tauri build -- --ci
+
+      - name: 上传 Windows 产物
+        uses: actions/upload-artifact@v4
+        with:
+          name: echohaven-windows-bundle
+          path: src-tauri/target/release/bundle/
+          if-no-files-found: error
+
+  # ---------------------------------------------------------------------------
+  # macOS：DMG 磁盘映像（通过 -c 合并 ci-bundle-macos-dmg.json，不写 tauri.macos.conf.json，
+  #         以免你本机执行 tauri build 时被强制改成只打 dmg）
+  # Runner 为 Apple Silicon 时产出 arm64 应用；需 Intel 可改为 macos-13 或配置 universal
+  # ---------------------------------------------------------------------------
+  macos:
+    name: macOS (DMG)
+    runs-on: macos-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Rust stable
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: 安装前端依赖
+        run: npm ci
+
+      - name: Tauri 构建（macOS，仅 DMG）
+        env:
+          CI: "true"
+        run: npm run tauri build -- --ci -c src-tauri/ci-bundle-macos-dmg.json
+
+      - name: 上传 macOS 产物
+        uses: actions/upload-artifact@v4
+        with:
+          name: echohaven-macos-bundle
+          path: src-tauri/target/release/bundle/
+          if-no-files-found: error

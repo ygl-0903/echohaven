@@ -2,6 +2,7 @@
 
 基于 **Tauri 2** + **React** + **TypeScript** + **Mantine** 的本地密码管理与到期提醒。数据仅存于本机加密金库文件，无云端账号与同步。
 
+**完整介绍（产品定位、安全、架构、文档导航）**：[docs/introduction.md](docs/introduction.md)  
 **功能说明（已实现能力汇总）**：[docs/features.md](docs/features.md)  
 **rustup / toolchain 说明（含 `rust-toolchain list` 如何看）**：[docs/rustup-toolchain.md](docs/rustup-toolchain.md)
 
